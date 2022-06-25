@@ -32,7 +32,11 @@ class ID3:
         impurity = 0.0
 
         # ====== YOUR CODE: ======
-        raise NotImplementedError
+        # raise NotImplementedError
+        amountOfSample = len(rows)
+        for label in labels:
+            p = counts[label] / amountOfSample
+            impurity -= p * math.log2(p)
         # ========================
 
         return impurity
@@ -56,7 +60,8 @@ class ID3:
 
         info_gain_value = 0.0
         # ====== YOUR CODE: ======
-        raise NotImplementedError
+        info_gain_value = current_uncertainty - self.entropy(left, left_labels) - self.entropy(right, right_labels)
+        # raise NotImplementedError
         # ========================
 
         return info_gain_value
@@ -75,11 +80,21 @@ class ID3:
         #   - If so, add it to 'true rows', otherwise, add it to 'false rows'.
         #   - Calculate the info gain using the `info_gain` method.
 
-        gain, true_rows, true_labels, false_rows, false_labels = None, None, None, None, None
+        # gain, true_rows, true_labels, false_rows, false_labels = None, None, None, None, None
+        # =========== maybe should be np.ndarray ===========#
+        gain, true_rows, true_labels, false_rows, false_labels = None, [], [], [], []
         assert len(rows) == len(labels), 'Rows size should be equal to labels size.'
 
         # ====== YOUR CODE: ======
-        raise NotImplementedError
+        for i, sample in enumerate(rows):
+            if question.match(sample):
+                true_rows.append(sample)
+                true_labels.append(labels[i])
+            else:
+                false_rows.append(sample)
+                false_labels.append(labels[i])
+        gain = self.info_gain(true_rows, true_labels, false_rows, false_labels, current_uncertainty)
+        # raise NotImplementedError
         # ========================
 
         return gain, true_rows, true_labels, false_rows, false_labels
@@ -101,7 +116,19 @@ class ID3:
         current_uncertainty = self.entropy(rows, labels)
 
         # ====== YOUR CODE: ======
-        raise NotImplementedError
+        questions = set()
+        for sample in rows:
+            for i, feature in enumerate(sample):
+                questions.add(Question(i, i, feature))
+        for question in questions:
+            gain, true_rows, true_labels, false_rows, false_labels = \
+                self.partition(rows, labels, question, current_uncertainty)
+            if gain > best_gain or (gain == best_gain and question.column_idx > best_question.column_idx):
+                best_gain = gain
+                best_question = question
+                best_false_rows, best_false_labels = false_rows, false_labels
+                best_true_rows, best_true_labels = true_rows, true_labels
+        # raise NotImplementedError
         # ========================
 
         return best_gain, best_question, best_true_rows, best_true_labels, best_false_rows, best_false_labels
@@ -123,7 +150,14 @@ class ID3:
         true_branch, false_branch = None, None
 
         # ====== YOUR CODE: ======
-        raise NotImplementedError
+        # raise NotImplementedError
+        leaf = Leaf(rows, labels)
+        if len(leaf.predictions) == 1:
+            return leaf
+        best_gain, best_question, best_true_rows, best_true_labels, best_false_rows, best_false_labels = \
+            self.find_best_split(rows, labels)
+        true_branch = self.build_tree(best_true_rows, best_true_labels)
+        false_branch = self.build_tree(best_false_rows, best_false_labels)
         # ========================
 
         return DecisionNode(best_question, true_branch, false_branch)
@@ -137,7 +171,8 @@ class ID3:
         # TODO: Build the tree that fits the input data and save the root to self.tree_root
 
         # ====== YOUR CODE: ======
-        raise NotImplementedError
+        self.tree_root = self.build_tree(x_train, y_train)
+        # raise NotImplementedError
         # ========================
 
     def predict_sample(self, row, node: DecisionNode or Leaf = None):
@@ -155,7 +190,13 @@ class ID3:
         prediction = None
 
         # ====== YOUR CODE: ======
-        raise NotImplementedError
+        while not isinstance(node, Leaf):
+            if node.question.match(row):
+                node = node.true_branch
+            else:
+                node = node.false_branch
+        prediction = list(node.predictions.keys())[0]
+        # raise NotImplementedError
         # ========================
 
         return prediction
@@ -172,7 +213,10 @@ class ID3:
         y_pred = None
 
         # ====== YOUR CODE: ======
-        raise NotImplementedError
+        y_pred = []
+        for sample in rows:
+            y_pred.append(self.predict_sample(sample))
+        # raise NotImplementedError
         # ========================
 
         return y_pred

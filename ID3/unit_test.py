@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from KNN import KNNClassifier
+# from KNN import KNNClassifier
 from utils import accuracy, l2_dist
 
 
@@ -36,7 +36,6 @@ class Test(unittest.TestCase):
         accuracy_val = accuracy(y1, y2)
         self.assertEqual(accuracy_val, 1 / 3)
         print('Success')
-
 
 
 if __name__ == '__main__':
