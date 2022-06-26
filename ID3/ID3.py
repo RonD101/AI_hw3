@@ -153,7 +153,7 @@ class ID3:
 
         # ====== YOUR CODE: ======
         leaf = Leaf(rows, labels)
-        if len(leaf.predictions) == 1:
+        if len(leaf.predictions) == 1 or len(rows) < self.min_for_pruning:
             return leaf
         best_gain, best_question, best_true_rows, best_true_labels, best_false_rows, best_false_labels = \
             self.find_best_split(rows, labels)
@@ -195,7 +195,11 @@ class ID3:
                 node = node.true_branch
             else:
                 node = node.false_branch
-        prediction = list(node.predictions.keys())[0]
+        maxLabelAmount = - math.inf
+        for label in node.predictions:
+            if node.predictions[label] > maxLabelAmount:
+                maxLabelAmount = node.predictions[label]
+                prediction = label
         # ========================
 
         return prediction
