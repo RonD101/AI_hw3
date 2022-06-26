@@ -1,6 +1,4 @@
 import copy
-from copy import deepcopy
-from multiprocessing import pool
 import numpy as np
 
 index_to_action = ["UP", "DOWN", "RIGHT", "LEFT"]
@@ -12,6 +10,7 @@ def get_wall_locations(mdp):
             if is_wall(mdp, row, col):
                 walls.append(row * mdp.num_col + col)
     return walls
+
 
 def is_wall(mdp, row, col):
     return mdp.board[row][col] == "WALL"
@@ -78,9 +77,7 @@ def get_policy(mdp, U):
                     loc_action_prob = mdp.transition_function[action][i]
                     cur_sum += loc_action_prob * U[next_state[0]][next_state[1]]
                 all_results.append(cur_sum)
-            best_result = max(all_results)
-            ret_policy[row][col] = index_to_action[all_results.index(
-                best_result)]
+            ret_policy[row][col] = index_to_action[np.argmax(all_results)]
     return ret_policy
 
 

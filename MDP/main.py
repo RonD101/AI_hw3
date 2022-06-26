@@ -47,12 +47,11 @@ def example_driver():
             action, prob = line[:-1].split(':')
             prob = prob.split(',')
             transition_function_env[action] = tuple(map(float, prob))
-
     # initialising the env
     mdp = MDP(board=board_env,
-              terminal_states=terminal_states_env,
-              transition_function=transition_function_env,
-              gamma=0.5)
+            terminal_states=terminal_states_env,
+            transition_function=transition_function_env,
+            gamma=1)
 
     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
     print("@@@@@@ The board and rewards @@@@@@")
@@ -64,8 +63,8 @@ def example_driver():
     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
 
     U = [[0, 0, 0, 0],
-         [0, 0, 0, 0],
-         [0, 0, 0, 0]]
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]]
 
     print("\nInitial utility:")
     mdp.print_utility(U)
@@ -85,8 +84,8 @@ def example_driver():
     mdp.print_utility(U_eval)
 
     policy = [['UP', 'UP', 'UP', 0],
-              ['UP', 'WALL', 'UP', 0],
-              ['UP', 'UP', 'UP', 'UP']]
+            ['UP', 'WALL', 'UP', 0],
+            ['UP', 'UP', 'UP', 'UP']]
 
     print("\nInitial policy:")
     mdp.print_policy(policy)
