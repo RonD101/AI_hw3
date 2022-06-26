@@ -32,10 +32,12 @@ class ID3:
         impurity = 0.0
 
         # ====== YOUR CODE: ======
-        # raise NotImplementedError
         amountOfSample = len(rows)
+        labels_types = set()
         for label in labels:
-            p = counts[label] / amountOfSample
+            labels_types.add(label)
+        for label_type in labels_types:
+            p = counts[label_type] / amountOfSample
             impurity -= p * math.log2(p)
         # ========================
 
@@ -60,8 +62,10 @@ class ID3:
 
         info_gain_value = 0.0
         # ====== YOUR CODE: ======
-        info_gain_value = current_uncertainty - self.entropy(left, left_labels) - self.entropy(right, right_labels)
-        # raise NotImplementedError
+        amountLeft = float(len(left_labels))
+        amountRight = float(len(right_labels))
+        totalAmount = amountLeft + amountRight
+        info_gain_value = current_uncertainty - (amountLeft / totalAmount) * self.entropy(left, left_labels) - (amountRight / totalAmount) * self.entropy(right, right_labels)
         # ========================
 
         return info_gain_value
@@ -94,7 +98,6 @@ class ID3:
                 false_rows.append(sample)
                 false_labels.append(labels[i])
         gain = self.info_gain(true_rows, true_labels, false_rows, false_labels, current_uncertainty)
-        # raise NotImplementedError
         # ========================
 
         return gain, true_rows, true_labels, false_rows, false_labels
@@ -128,7 +131,6 @@ class ID3:
                 best_question = question
                 best_false_rows, best_false_labels = false_rows, false_labels
                 best_true_rows, best_true_labels = true_rows, true_labels
-        # raise NotImplementedError
         # ========================
 
         return best_gain, best_question, best_true_rows, best_true_labels, best_false_rows, best_false_labels
@@ -150,7 +152,6 @@ class ID3:
         true_branch, false_branch = None, None
 
         # ====== YOUR CODE: ======
-        # raise NotImplementedError
         leaf = Leaf(rows, labels)
         if len(leaf.predictions) == 1:
             return leaf
@@ -172,7 +173,6 @@ class ID3:
 
         # ====== YOUR CODE: ======
         self.tree_root = self.build_tree(x_train, y_train)
-        # raise NotImplementedError
         # ========================
 
     def predict_sample(self, row, node: DecisionNode or Leaf = None):
@@ -196,7 +196,6 @@ class ID3:
             else:
                 node = node.false_branch
         prediction = list(node.predictions.keys())[0]
-        # raise NotImplementedError
         # ========================
 
         return prediction
@@ -216,7 +215,6 @@ class ID3:
         y_pred = []
         for sample in rows:
             y_pred.append(self.predict_sample(sample))
-        # raise NotImplementedError
         # ========================
 
         return y_pred
