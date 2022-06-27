@@ -1,7 +1,7 @@
 import argparse
 import os
 from mdp import MDP
-from value_and_policy_iteration import value_iteration, get_policy, policy_evaluation, policy_iteration
+from bla import value_iteration, get_policy, policy_evaluation, policy_iteration
 
 
 def is_valid_file(parser, arg):
@@ -53,32 +53,22 @@ def example_driver():
             transition_function=transition_function_env,
             gamma=1)
 
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-    print("@@@@@@ The board and rewards @@@@@@")
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-    mdp.print_rewards()
+    # mdp.print_rewards()
 
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-    print("@@@@@@@@@ Value iteration @@@@@@@@@")
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
 
     U = [[0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0]]
 
-    print("\nInitial utility:")
-    mdp.print_utility(U)
+    #print("\nInitial utility:")
+    #mdp.print_utility(U)
     print("\nFinal utility:")
     U_new = value_iteration(mdp, U)
     mdp.print_utility(U_new)
     print("\nFinal policy:")
     policy = get_policy(mdp, U_new)
     mdp.print_policy(policy)
-
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-    print("@@@@@@@@@ Policy iteration @@@@@@@@")
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-
+    print("************* Yuval result ******")
     print("\nPolicy evaluation:")
     U_eval = policy_evaluation(mdp, policy)
     mdp.print_utility(U_eval)

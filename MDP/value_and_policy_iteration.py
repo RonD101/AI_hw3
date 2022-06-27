@@ -45,7 +45,7 @@ def value_iteration(mdp, U_init, epsilon=10 ** (-3)):
                 if is_terminal(mdp, row, col):
                     U_tag[row][col] = cur_reward
                     continue
-                best_action = 0.0
+                best_action = np.NINF
                 for action in mdp.transition_function:
                     cur_action = 0
                     for i, a in enumerate(mdp.actions):
