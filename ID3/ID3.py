@@ -24,9 +24,6 @@ class ID3:
         :param labels: rows data labels.
         :return: entropy value.
         """
-        # TODO:
-        #  Calculate the entropy of the data as shown in the class.
-        #  - You can use counts as a helper dictionary of label -> count, or implement something else.
 
         counts = class_counts(rows, labels)
         impurity = 0.0
@@ -54,9 +51,6 @@ class ID3:
         :param current_uncertainty: the current uncertainty of the current node
         :return: the info gain for splitting the current node into the two children left and right.
         """
-        # TODO:
-        #  - Calculate the entropy of the data of the left and the right child.
-        #  - Calculate the info gain as shown in class.
         assert (len(left) == len(left_labels)) and (len(right) == len(right_labels)), \
             'The split of current node is not right, rows size should be equal to labels size.'
 
@@ -79,10 +73,6 @@ class ID3:
         :param current_uncertainty: the current uncertainty of the current node
         :return: Tuple of (gain, true_rows, true_labels, false_rows, false_labels)
         """
-        # TODO:
-        #   - For each row in the dataset, check if it matches the question.
-        #   - If so, add it to 'true rows', otherwise, add it to 'false rows'.
-        #   - Calculate the info gain using the `info_gain` method.
 
         # gain, true_rows, true_labels, false_rows, false_labels = None, None, None, None, None
         # =========== maybe should be np.ndarray ===========#
@@ -109,9 +99,6 @@ class ID3:
         :param labels: rows data labels.
         :return: Tuple of (best_gain, best_question, best_true_rows, best_true_labels, best_false_rows, best_false_labels)
         """
-        # TODO:
-        #   - For each feature of the dataset, build a proper question to partition the dataset using this feature.
-        #   - find the best feature to split the data. (using the `partition` method)
         best_gain = - math.inf  # keep track of the best information gain
         best_question = None  # keep train of the feature / value that produced it
         best_false_rows, best_false_labels = None, None
@@ -144,10 +131,6 @@ class ID3:
                 or leaf if we have to prune this branch (in which cases ?)
 
         """
-        # TODO:
-        #   - Try partitioning the dataset using the feature that produces the highest gain.
-        #   - Recursively build the true, false branches.
-        #   - Build the Question node which contains the best question with true_branch, false_branch as children
         best_question = None
         true_branch, false_branch = None, None
 
@@ -157,6 +140,8 @@ class ID3:
             return leaf
         best_gain, best_question, best_true_rows, best_true_labels, best_false_rows, best_false_labels = \
             self.find_best_split(rows, labels)
+        if len(best_true_rows) == 0 or len(best_false_rows) == 0:
+            return leaf  # For cases that we don't have a question that will increase our IG
         true_branch = self.build_tree(best_true_rows, best_true_labels)
         false_branch = self.build_tree(best_false_rows, best_false_labels)
         # ========================
@@ -169,7 +154,6 @@ class ID3:
         :param x_train: A labeled training data.
         :param y_train: training data labels.
         """
-        # TODO: Build the tree that fits the input data and save the root to self.tree_root
 
         # ====== YOUR CODE: ======
         self.tree_root = self.build_tree(x_train, y_train)
@@ -181,9 +165,6 @@ class ID3:
         :param row: vector of shape (1,D).
         :return: The row prediction.
         """
-        # TODO: Implement ID3 class prediction for set of data.
-        #   - Decide whether to follow the true-branch or the false-branch.
-        #   - Compare the feature / value stored in the node, to the example we're considering.
 
         if node is None:
             node = self.tree_root
@@ -210,8 +191,6 @@ class ID3:
         :param rows: vector of shape (N,D) where N is the number of samples.
         :return: A vector of shape (N,) containing the predicted classes.
         """
-        # TODO:
-        #  Implement ID3 class prediction for set of data.
 
         y_pred = None
 
