@@ -32,7 +32,6 @@ def accuracy(y: np.array, y_pred: np.array):
     :param y_pred: Predictions vector of shape (N,)
     :return: The prediction accuracy as a fraction.
     """
-    # TODO: Calculate prediction accuracy. Don't use an explicit loop.
 
     assert y.shape == y_pred.shape
     assert y.ndim == 1
@@ -54,9 +53,6 @@ def l2_dist(x1: np.array, x2: np.array):
     :return: A distance matrix of shape (N1, N2) where the entry i, j
     represents the distance between x1 sample i and x2 sample j.
     """
-    # TODO:
-    #  Implement L2-distance calculation efficiently as possible.
-    #  Note: Use only basic numpy operations, no external code.
 
     dists = None
 

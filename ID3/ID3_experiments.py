@@ -54,11 +54,6 @@ def basic_experiment(x_train, y_train, x_test, y_test, formatted_print=False):
     Use ID3 model, to train on the training dataset and evaluating the accuracy in the test set.
     """
 
-    # TODO:
-    #  - Instate ID3 decision tree instance.
-    #  - Fit the tree on the training data set.
-    #  - Test the model on the test set (evaluate the accuracy) and print the result.
-
     acc = None
 
     # ====== YOUR CODE: ======
@@ -125,11 +120,6 @@ def best_m_test(x_train, y_train, x_test, y_test, min_for_pruning):
         :return: acc: the accuracy value of ID3 decision tree instance that using the best_m as the pruning parameter.
     """
 
-    # TODO:
-    #  - Instate ID3 decision tree instance (using pre-training pruning condition).
-    #  - Fit the tree on the training data set.
-    #  - Test the model on the test set (evaluate the accuracy) and return the result.
-
     acc = None
 
     # ====== YOUR CODE: ======
@@ -175,6 +165,6 @@ if __name__ == '__main__':
         pruning experiment, run with the best parameter
         (*) To run the experiment uncomment below code and run it
     """
-    acc = best_m_test(*data_split, min_for_pruning=30)#best_m)
+    acc = best_m_test(*data_split, min_for_pruning=50)#best_m)
     assert acc > 0.95, 'you should get an accuracy of at least 95% for the pruned ID3 decision tree'
     print(f'Test Accuracy: {acc * 100:.2f}%' if formatted_print else acc)
