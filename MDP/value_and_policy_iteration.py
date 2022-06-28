@@ -23,8 +23,8 @@ def is_terminal(mdp, row, col):
 def get_util_times_p_for_state(mdp, U, row, col, action):
     util = 0.0
     for i, a in enumerate(mdp.transition_function):
-        r, c = mdp.step((row, col), a)
-        util += mdp.transition_function[action][i] * U[r][c]
+        next_row, next_col = mdp.step((row, col), a)
+        util += mdp.transition_function[action][i] * U[next_row][next_col]
     return util
 
 
